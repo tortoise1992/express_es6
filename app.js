@@ -7,6 +7,9 @@ import publicRoute from './routes/publicRoute'
 import privateRoute from './routes/privateRoute'
 import Session from 'express-session'
 import SessionFile from 'session-file-store'
+import {sessionName,sessionSecert} from './config/serect'
+import Auth from './middleware/auth'
+
 let FileStore = SessionFile(Session)
 let app = express();
 
@@ -21,17 +24,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // session的配置
 app.use(Session({
-  name: 'sessionId',
-  secret: 'ahuife',  // 用来对session id相关的cookie进行签名
+  name: sessionName,
+  secret: sessionSecert,  // 用来对session id相关的cookie进行签名
   store: new FileStore(),  // 本地存储session（文本文件，也可以选择其他store，比如redis的）
   saveUninitialized: false,  // 是否自动保存未初始化的会话，建议false
   resave: false,  // 是否每次都重新保存会话，建议false
   cookie: {
-      maxAge: 60 * 1000  // 有效期，单位是毫秒
+      maxAge: 60*60 * 1000  // 有效期，单位是毫秒
   }
 }));
 app.use(express.static(path.join(__dirname, 'public')));
-
+// 检验登录授权的中间件
+app.use(Auth)
 // 插入路由配置项，统一加路由前缀
 app.use('/api', [publicRoute,privateRoute]);
 

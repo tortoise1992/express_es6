@@ -1,6 +1,5 @@
 import {Router} from 'express'
+import generateUserRoute from './router/user'
 let router=Router()
-router.get('/api', function(req, res, next) {
-    res.render('index', { title: 'hello' });
-});
+generateUserRoute(router)
 export default router
