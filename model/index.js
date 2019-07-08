@@ -4,7 +4,6 @@ import User from './user'
 import UserInfo from './user_info'
 
 UserInfo.belongsTo(User,{foreignKey:'user_uuid'});
-User.hasOne(UserInfo,{foreignKey:'user_uuid'})
 //基于sequelize自动创建表
 // 【！！注意 首次执行完请注释掉该段代码 ！！】
 // Mysql.sync({
