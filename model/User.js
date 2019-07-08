@@ -2,22 +2,21 @@ import sequelize from '../config/db'
 import Sequelize from 'sequelize'
 // 创建model，定义数据表结构
 var User = sequelize.define('user', {
-    'id' : {
-        type : Sequelize.INTEGER, 
-        autoIncrement : true, 
-        primaryKey : true, 
-        unique : true
-    },
-    'username': {
-        type: Sequelize.STRING, // 指定值的类型       
-    },
-    // 没有指定 field，表中键名称则与对象键名相同，为 email
-    'password': {
-        type: Sequelize.STRING
-    },
-    'email':{
-        type: Sequelize.STRING
-    }
+    uuid: {
+        type: Sequelize.UUID,//设置类型
+        allowNull: false,//是否允许为空
+        primaryKey: true,//主键
+        defaultValue: Sequelize.UUIDV1,//默认值
+    },    
+    username: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true, //唯一    
+    },    
+    password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },    
 }, {    
     freezeTableName: true
 });
